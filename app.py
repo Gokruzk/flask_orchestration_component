@@ -2,16 +2,17 @@ from flask import Flask, jsonify, request
 import requests
 
 app = Flask(__name__)
+API = 'http://127.0.0.1:5002'
 
 
 @app.route('/register', methods=['POST'])
 def register_user():
     # retreiving user data
-    user_data = request.json  
+    user_data = request.json
 
     # call user register service
     registration_response = requests.post(
-        'http://127.0.0.1:5001/user', json=user_data)
+        f'{API}/user', json=user_data)
 
     # verify registration service response
     if registration_response.status_code == 200:
@@ -19,7 +20,7 @@ def register_user():
         email_data = {'email': user_data['email']}
         # call email service
         email_response = requests.post(
-            'http://127.0.0.1:5002/email', json=email_data)
+            f'{API}/email', json=email_data)
 
         # # verify email service response
         if email_response.status_code == 200:
